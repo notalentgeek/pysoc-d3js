@@ -261,6 +261,8 @@ function ClientCircle(_client, _degree){
         .style("stroke", this.client.clientCircleColor)
         .style("stroke-width", 5);
 
+    this.gLatestIRCodeClientLine = d3SVG.append("g")
+
     //console.log(this.circle);
     //console.log(this.cX);
     //console.log(this.cY);
