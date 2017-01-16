@@ -1,7 +1,14 @@
 var clientCircleList = [];
-var clientCircleMovingList = [];
-var clientCircleRadius = d3Padding;
+var clientCircleRadius = d3DimensionSmallest/24;
+var clientCircleRadiusBiggest = d3DimensionSmallest/12;
 var degreeTargetList = [];
+var linearScalePitch;
+var simulateLinearScaleVolume = d3.scaleLinear()
+    .domain([0.001, 0.05])
+    .range([clientCircleRadius, clientCircleRadiusBiggest]);
+var simulateLinearScalePitchFill = d3.scaleLinear()
+    .domain([200, 5000])
+    .range([0, 0.9]);
 
 // Global function.
 function ClientCircleListRotate(){
@@ -9,7 +16,7 @@ function ClientCircleListRotate(){
     for(var i = 0; i < clientCircleList.length; i ++){
 
         // Check if this client circle will be deleted.
-        if(!clientCircleList[i].willBeDeleted){
+        if(!clientCircleList[i].willBeDeleted && clientCircleList[i] !== null && clientCircleList[i] !== undefined){
 
             // Move the client circle clock wise.
             if(
@@ -17,25 +24,34 @@ function ClientCircleListRotate(){
                 (clientCircleList[i].degreeSaved > clientCircleList[i].degreeTarget)
             ){
 
+                //console.log(clientCircleList[i].degreeCurrent);
+                //console.log(clientCircleList[i].degreeSaved);
+                //console.log(clientCircleList[i].degreeTarget);
                 //console.log(clientCircleList[i]);
                 //console.log(clientCircleList[i].cX);
 
-                var degreeStep = -1*(Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100);
+                var degreeStep = -80;
+                //var degreeStep = -1*(Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100);
+
+                //console.log(clientCircleList[i].cX);
 
                 clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
                 clientCircleList[i].cX = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
 
-                //console.log(mainCircleRadius);
+                if(clientCircleList[i] === null || clientCircleList[i] === undefined){ console.log(clientCircleList[i].cX); }
+                //console.log(clientCircleList[i]);
                 //console.log(clientCircleList[i].cX);
-                //console.log(clientCircleList[i].degreeCurrent);
-                //console.log(Math.sin(Math.Radian(clientCircleList[i].degreeCurrent)));
                 //console.log(clientCircleList[i].cY);
+                //console.log(clientCircleList[i].degreeCurrent);
+                //console.log(mainCircleRadius);
+                //console.log(Math.sin(Math.Radian(clientCircleList[i].degreeCurrent)));
 
                 if(clientCircleList[i].circle.style("opacity") < 1){
 
                     var opacityStep = Number(clientCircleList[i].circle.style("opacity")) + 0.05;
+                    opacityStep = (opacityStep > 1) ? 1 : opacityStep;
 
                     clientCircleList[i].circle
                         .transition()
@@ -66,13 +82,20 @@ function ClientCircleListRotate(){
 
                 //console.log(clientCircleList[i]);
                 //console.log(clientCircleList[i].cX);
+                //console.log(clientCircleList[i].degreeCurrent);
+                //console.log(clientCircleList[i].degreeSaved);
+                //console.log(clientCircleList[i].degreeTarget);
 
-                var degreeStep = Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100;
+                var degreeStep = 80;
+                //var degreeStep = Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100;
 
                 clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
                 clientCircleList[i].cX = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
+
+                if(clientCircleList[i] === null || clientCircleList[i] === undefined){ console.log(clientCircleList[i].cX); }
+                //console.log(clientCircleList[i].cX);
 
                 if(clientCircleList[i].circle.style("opacity") < 1){
 
@@ -110,6 +133,9 @@ function ClientCircleListRotate(){
                 clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time = 0;
 
+                if(clientCircleList[i] === null || clientCircleList[i] === undefined){ console.log(clientCircleList[i].cX); }
+                //console.log(clientCircleList[i].cX);
+
                 if(clientCircleList[i].circle.style("opacity") < 1){
 
                     var opacityStep = Number(clientCircleList[i].circle.style("opacity")) + 0.05;
@@ -133,13 +159,12 @@ function ClientCircleListRotate(){
 
                 }
 
-                var index = clientCircleMovingList.indexOf(clientCircleList[i]);
-                if(index > -1){ clientCircleMovingList.splice(index, 1); }
-
             }
 
         }
-        else{
+        else if(clientCircleList[i].willBeDeleted && clientCircleList[i] !== null && clientCircleList[i] !== undefined){
+
+            clientCircleList[i].time = 0;
 
             if(clientCircleList[i].circle.style("opacity") > 0){
 
@@ -151,21 +176,26 @@ function ClientCircleListRotate(){
                     .duration(0.1)
                     .on("end", ClientCircleListRotate);
 
-                var index = clientCircleMovingList.indexOf(clientCircleList[i]);
-                if(index > -1){ clientCircleMovingList.splice(index, 1); }
-
             }
             else{
+
+                var clientCircleTemp = clientCircleList[i];
 
                 clientCircleList[i].circle.remove();
 
                 var index = clientCircleList.indexOf(clientCircleList[i]);
                 if(index > -1){ clientCircleList.splice(index, 1); }
 
-                var index = clientCircleMovingList.indexOf(clientCircleList[i]);
-                if(index > -1){ clientCircleMovingList.splice(index, 1); }
+                clientCircleTemp.client.clientCircle = null;
+                clientCircleTemp.client = null;
+                delete clientCircleTemp;
 
-                clientList[i].clientCircle = null;
+                DetermineDegreeTargetList(clientCircleList.length);
+                for(var j = 0; j < clientCircleList.length; j ++){
+
+                    clientCircleList[j].RotateAuto();
+
+                }
 
             }
 
@@ -214,11 +244,6 @@ function ClientCircle(_client, _degree){
     this.degreeSaved = this.degreeCurrent;
     this.degreeTarget = this.degreeCurrent;
 
-    this.opacityCurrent = 0;
-    this.opacitySaved = this.opacityCurrent;
-    this.opacityTarget = 1;
-    this.opacityChange = true;
-
     this.time = 0;
     this.willBeDeleted = false;
 
@@ -232,7 +257,10 @@ function ClientCircle(_client, _degree){
             "transform",
             "translate(" + d3DimensionTranslate.x + ", " + d3DimensionTranslate.y + ")"
         )
-        .style("opacity", this.opacityCurrent);
+        .style("fill", this.client.clientCircleColor)
+        .style("opacity", 0)
+        .style("stroke", this.client.clientCircleColor)
+        .style("stroke-width", 5);
 
     //console.log(this.circle);
     //console.log(this.cX);

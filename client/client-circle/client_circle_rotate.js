@@ -2,15 +2,7 @@ ClientCircle.prototype.Rotate = function(_degree){
 
     this.degreeTarget = _degree;
     this.time = 0;
-
-    var index = clientCircleMovingList.indexOf(this);
-
-    if(index == -1){
-
-        clientCircleMovingList.push(this);
-        ClientCircleListRotate();
-
-    }
+    ClientCircleListRotate();
 
 };
 ClientCircle.prototype.RotateAuto = function(){

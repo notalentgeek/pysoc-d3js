@@ -64,4 +64,20 @@ Client.prototype.SimulateAddLatestInputMic = function(){
     this.latestAmountPitch = ((Math.random()*5000.0) + 200.0).toFixed(3);
     this.latestAmountVolume = ((Math.random()*0.05) + 0.001).toFixed(3);
 
+    //console.log(this.clientCircle);
+    //console.log(this.clientCircle !== null && this.clientCircle !== undefined);
+
+    if(this.clientCircle !== null && this.clientCircle !== undefined){
+
+        var fillTem = ShadeRGBColor(
+            "rgb(" + HexRGB(this.clientCircleColor).r + ", " + HexRGB(this.clientCircleColor).g + ", " + HexRGB(this.clientCircleColor).b + ")",
+            simulateLinearScalePitchFill(this.latestAmountPitch)
+        );
+        this.clientCircle.radius = simulateLinearScaleVolume(this.latestAmountVolume);
+
+        this.clientCircle.circle.transition().attr("r", this.clientCircle.radius).style("fill", fillTem).duration(100);
+        //console.log(this.clientCircle.radius);
+
+    }
+
 };

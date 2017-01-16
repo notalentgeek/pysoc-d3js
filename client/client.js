@@ -10,6 +10,9 @@ function Client(_irCode, _name){
     this.name = _name;
 
     this.clientCircle;
+    this.clientCircleColor = INTRGB(HashCode(this.name));
+
+    //console.log(this.clientCircleColor);
 
     this.online = false;
     this.onlineChance = 1.0;
