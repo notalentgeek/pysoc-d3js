@@ -19,65 +19,54 @@ for(var i = 0; i < clientCircleList.length; i ++){
 
 }
 
-window.setInterval(function(){
+setInterval(function(){
 
     //console.log("1 second just passed");
+    //console.log(focus());
 
-    var currentDate = new Date();
-    for(var i = 0; i < clientList.length; i ++){
+    if(focus()){
 
-        clientList[i].SimulateCheckOnline();
+        var currentDate = new Date();
+        for(var i = 0; i < clientList.length; i ++){
 
-    }
-    for(var i = 0; i < clientList.length; i ++){
-
-        clientList[i].Simulate(currentDate);
-        //console.log(clientList[i].DebugShowLatest());
-
-        if(!clientList[i].online && clientList[i].clientCircle !== null){
-
-            clientList[i].clientCircle.willBeDeleted = true;
-            DetermineDegreeTargetList(clientCircleList.length);
-            for(var j = 0; j < clientCircleList.length; j ++){
-
-                clientCircleList[j].RotateAuto();
-
-            }
+            clientList[i].SimulateCheckOnline();
 
         }
-        else if(clientList[i].online && clientList[i].clientCircle == null){
+        for(var i = 0; i < clientList.length; i ++){
 
-            if(clientCircleList.length == 0){
+            clientList[i].Simulate(currentDate);
+            //console.log(clientList[i].DebugShowLatest());
 
-                new ClientCircle(clientList[i], 180);
+            if(!clientList[i].online && clientList[i].clientCircle !== null){
+
+                clientList[i].clientCircle.willBeDeleted = true;
                 DetermineDegreeTargetList(clientCircleList.length);
-                for(var j = 0; j < clientCircleList.length; j ++){
-
-                    clientCircleList[j].RotateAuto();
-
-                }
+                for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
 
             }
-            else if(clientCircleList.length == 1){
+            else if(clientList[i].online && clientList[i].clientCircle == null){
 
-                new ClientCircle(clientList[i], 0);
-                DetermineDegreeTargetList(clientCircleList.length);
-                for(var j = 0; j < clientCircleList.length; j ++){
+                if(clientCircleList.length == 0){
 
-                    clientCircleList[j].RotateAuto();
-
-                }
-
-            }
-            else{
-
-                DetermineDegreeTargetList(clientCircleList.length + 1);
-                for(var j = 0; j < clientCircleList.length; j ++){
-
-                    clientCircleList[j].RotateAuto();
+                    new ClientCircle(clientList[i], 180);
+                    DetermineDegreeTargetList(clientCircleList.length);
+                    for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
 
                 }
-                new ClientCircle(clientList[i], degreeTargetList[0]);
+                else if(clientCircleList.length == 1){
+
+                    new ClientCircle(clientList[i], 0);
+                    DetermineDegreeTargetList(clientCircleList.length);
+                    for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+
+                }
+                else{
+
+                    DetermineDegreeTargetList(clientCircleList.length + 1);
+                    for(var j = 0; j < clientCircleList.length; j ++){ clientCircleList[j].RotateAuto(); }
+                    new ClientCircle(clientList[i], degreeTargetList[0]);
+
+                }
 
             }
 

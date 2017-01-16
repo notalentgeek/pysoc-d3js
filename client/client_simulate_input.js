@@ -30,6 +30,7 @@ Client.prototype.SimulateAddLatestInputIR = function(){
     //console.log("test");
 
     this.latestIRCode = [];
+    this.latestIRCodeClient = [];
     for(var i = 0; i < clientList.length; i ++){
 
         /*
@@ -50,6 +51,7 @@ Client.prototype.SimulateAddLatestInputIR = function(){
         ){
 
             this.latestIRCode.push(clientList[i].name);
+            this.latestIRCodeClient.push(clientList[i]);
             //this.latestIRCode.push(clientList[i].clientIRCode);
             //console.log(clientList[i].name);
 
@@ -57,6 +59,9 @@ Client.prototype.SimulateAddLatestInputIR = function(){
 
     }
 
+    console.log(this.latestIRCode);
+    console.log(this.latestIRCodeClient);
+    console.log(this.latestIRCodeClient[0].clientCircle.cX);
 
 };
 Client.prototype.SimulateAddLatestInputMic = function(){
@@ -64,8 +69,8 @@ Client.prototype.SimulateAddLatestInputMic = function(){
     this.latestAmountPitch = ((Math.random()*5000.0) + 200.0).toFixed(3);
     this.latestAmountVolume = ((Math.random()*0.05) + 0.001).toFixed(3);
 
-    //console.log(this.clientCircle);
     //console.log(this.clientCircle !== null && this.clientCircle !== undefined);
+    //console.log(this.clientCircle);
 
     if(this.clientCircle !== null && this.clientCircle !== undefined){
 
@@ -76,7 +81,6 @@ Client.prototype.SimulateAddLatestInputMic = function(){
         this.clientCircle.radius = simulateLinearScaleVolume(this.latestAmountVolume);
 
         this.clientCircle.circle.transition().attr("r", this.clientCircle.radius).style("fill", fillTem).duration(100);
-        //console.log(this.clientCircle.radius);
 
     }
 

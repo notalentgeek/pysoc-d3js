@@ -1,3 +1,5 @@
+var currDateTime = new Date();
+
 var simulateClientNameIRCodeList = [
 
     ["KEY_1", "carl"],

@@ -21,6 +21,7 @@ function Client(_irCode, _name){
     this.latestAmountPitch = 0;
     this.latestAmountVolume = 0;
     this.latestIRCode = [];
+    this.latestIRCodeClient = [];
 
     this.latestYear;
     this.latestMonth;
