@@ -8,7 +8,8 @@ function ClientCircleListRotate(){
 
     for(var i = 0; i < clientCircleList.length; i ++){
 
-        if(clientCircleList[i].circle !== null && clientCircleList[i].circle !== undefined){
+        // Check if this client circle will be deleted.
+        if(!clientCircleList[i].willBeDeleted){
 
             // Move the client circle clock wise.
             if(
@@ -19,9 +20,9 @@ function ClientCircleListRotate(){
                 //console.log(clientCircleList[i]);
                 //console.log(clientCircleList[i].cX);
 
-                var step = -1*(Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100);
+                var degreeStep = -1*(Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100);
 
-                clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, step, 32*clientCircleList.length);
+                clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
                 clientCircleList[i].cX = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
@@ -32,12 +33,29 @@ function ClientCircleListRotate(){
                 //console.log(Math.sin(Math.Radian(clientCircleList[i].degreeCurrent)));
                 //console.log(clientCircleList[i].cY);
 
-                clientCircleList[i].circle
-                    .transition()
-                    .attr("cx", clientCircleList[i].cX)
-                    .attr("cy", clientCircleList[i].cY)
-                    .duration(0.1)
-                    .on("end", ClientCircleListRotate);
+                if(clientCircleList[i].circle.style("opacity") < 1){
+
+                    var opacityStep = Number(clientCircleList[i].circle.style("opacity")) + 0.05;
+
+                    clientCircleList[i].circle
+                        .transition()
+                        .attr("cx", clientCircleList[i].cX)
+                        .attr("cy", clientCircleList[i].cY)
+                        .style("opacity", opacityStep)
+                        .duration(0.1)
+                        .on("end", ClientCircleListRotate);
+
+                }
+                else{
+
+                    clientCircleList[i].circle
+                        .transition()
+                        .attr("cx", clientCircleList[i].cX)
+                        .attr("cy", clientCircleList[i].cY)
+                        .duration(0.1)
+                        .on("end", ClientCircleListRotate);
+
+                }
 
             }
             // Move counter clock wise.
@@ -49,19 +67,36 @@ function ClientCircleListRotate(){
                 //console.log(clientCircleList[i]);
                 //console.log(clientCircleList[i].cX);
 
-                var step = Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100;
+                var degreeStep = Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100;
 
-                clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, step, 32*clientCircleList.length);
+                clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
                 clientCircleList[i].cX = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
 
-                clientCircleList[i].circle
-                    .transition()
-                    .attr("cx", clientCircleList[i].cX)
-                    .attr("cy", clientCircleList[i].cY)
-                    .duration(0.1)
-                    .on("end", ClientCircleListRotate);
+                if(clientCircleList[i].circle.style("opacity") < 1){
+
+                    var opacityStep = Number(clientCircleList[i].circle.style("opacity")) + 0.05;
+
+                    clientCircleList[i].circle
+                        .transition()
+                        .attr("cx", clientCircleList[i].cX)
+                        .attr("cy", clientCircleList[i].cY)
+                        .style("opacity", opacityStep)
+                        .duration(0.1)
+                        .on("end", ClientCircleListRotate);
+
+                }
+                else{
+
+                    clientCircleList[i].circle
+                        .transition()
+                        .attr("cx", clientCircleList[i].cX)
+                        .attr("cy", clientCircleList[i].cY)
+                        .duration(0.1)
+                        .on("end", ClientCircleListRotate);
+
+                }
 
             }
             else{
@@ -75,14 +110,62 @@ function ClientCircleListRotate(){
                 clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time = 0;
 
-                clientCircleList[i].circle
-                    .transition()
-                    .attr("cx", clientCircleList[i].cX)
-                    .attr("cy", clientCircleList[i].cY)
-                    .duration(0.1);
+                if(clientCircleList[i].circle.style("opacity") < 1){
+
+                    var opacityStep = Number(clientCircleList[i].circle.style("opacity")) + 0.05;
+
+                    clientCircleList[i].circle
+                        .transition()
+                        .attr("cx", clientCircleList[i].cX)
+                        .attr("cy", clientCircleList[i].cY)
+                        .style("opacity", opacityStep)
+                        .duration(0.1)
+                        .on("end", ClientCircleListRotate);
+
+                }
+                else{
+
+                    clientCircleList[i].circle
+                        .transition()
+                        .attr("cx", clientCircleList[i].cX)
+                        .attr("cy", clientCircleList[i].cY)
+                        .duration(0.1);
+
+                }
 
                 var index = clientCircleMovingList.indexOf(clientCircleList[i]);
                 if(index > -1){ clientCircleMovingList.splice(index, 1); }
+
+            }
+
+        }
+        else{
+
+            if(clientCircleList[i].circle.style("opacity") > 0){
+
+                var opacityStep = Number(clientCircleList[i].circle.style("opacity")) - 0.05;
+
+                clientCircleList[i].circle
+                    .transition()
+                    .style("opacity", opacityStep)
+                    .duration(0.1)
+                    .on("end", ClientCircleListRotate);
+
+                var index = clientCircleMovingList.indexOf(clientCircleList[i]);
+                if(index > -1){ clientCircleMovingList.splice(index, 1); }
+
+            }
+            else{
+
+                clientCircleList[i].circle.remove();
+
+                var index = clientCircleList.indexOf(clientCircleList[i]);
+                if(index > -1){ clientCircleList.splice(index, 1); }
+
+                var index = clientCircleMovingList.indexOf(clientCircleList[i]);
+                if(index > -1){ clientCircleMovingList.splice(index, 1); }
+
+                clientList[i].clientCircle = null;
 
             }
 
@@ -131,7 +214,13 @@ function ClientCircle(_client, _degree){
     this.degreeSaved = this.degreeCurrent;
     this.degreeTarget = this.degreeCurrent;
 
+    this.opacityCurrent = 0;
+    this.opacitySaved = this.opacityCurrent;
+    this.opacityTarget = 1;
+    this.opacityChange = true;
+
     this.time = 0;
+    this.willBeDeleted = false;
 
     this.radius = clientCircleRadius;
     this.circle = d3SVG.append("circle")
@@ -143,10 +232,7 @@ function ClientCircle(_client, _degree){
             "transform",
             "translate(" + d3DimensionTranslate.x + ", " + d3DimensionTranslate.y + ")"
         )
-        .style("opacity", 0)
-        .transition()
-        .style("opacity", 1)
-        .duration(50);
+        .style("opacity", this.opacityCurrent);
 
     //console.log(this.circle);
     //console.log(this.cX);

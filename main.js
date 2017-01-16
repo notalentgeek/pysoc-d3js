@@ -35,19 +35,7 @@ window.setInterval(function(){
 
         if(!clientList[i].online && clientList[i].clientCircle !== null){
 
-            clientList[i].clientCircle.circle
-                .transition()
-                .style("opacity", 0)
-                .duration(500)
-                .remove();
-
-            var index = clientCircleList.indexOf(clientList[i].clientCircle);
-            if(index > -1){ clientCircleList.splice(index, 1); }
-
-            var index = clientCircleMovingList.indexOf(clientList[i].clientCircle);
-            if(index > -1){ clientCircleMovingList.splice(index, 1); }
-
-            clientList[i].clientCircle = null;
+            clientList[i].clientCircle.willBeDeleted = true;
 
             DetermineDegreeTargetList(clientCircleList.length);
             for(var j = 0; j < clientCircleList.length; j ++){

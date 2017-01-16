@@ -1,9 +1,10 @@
 var simulateClientNameIRCodeList = [
 
-    ["KEY_1", "chris"],
-    ["KEY_2", "dennet"],
-    ["KEY_3", "richard"],
-    ["KEY_4", "sam"]
+    ["KEY_1", "carl"],
+    ["KEY_2", "chris"],
+    ["KEY_3", "dennet"],
+    ["KEY_4", "richard"],
+    ["KEY_5", "sam"]
 
 ];
 

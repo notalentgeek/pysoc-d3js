@@ -10,7 +10,6 @@ function Client(_irCode, _name){
     this.name = _name;
 
     this.clientCircle;
-    this.clientCircleJustDeleted = false;
 
     this.online = false;
     this.onlineChance = 1.0;
