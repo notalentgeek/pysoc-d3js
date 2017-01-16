@@ -14,6 +14,9 @@ var simulateLinearScalePitchFill = d3.scaleLinear()
 // Global function.
 function ClientCircleListRotate(){
 
+    d3.selectAll(".circle").remove();
+    d3.selectAll(".line").remove();
+
     for(var i = 0; i < clientCircleList.length; i ++){
 
         // Check if this client circle will be deleted.
@@ -36,11 +39,19 @@ function ClientCircleListRotate(){
                 //console.log(clientCircleList[i].cX);
 
                 clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
-                clientCircleList[i].cX = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
-                clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
+                clientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
+                clientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
 
-                if(clientCircleList[i] === null || clientCircleList[i] === undefined){ console.log(clientCircleList[i].cX); }
+                /*
+                d3.selectAll(".circle " + clientCircleList[i].client.name).remove();
+                d3.selectAll(".line " + clientCircleList[i].client.name).remove();
+                for(var j = 0; j < clientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                    d3.selectAll(".circle " + clientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+                }
+                */
 
                 //console.log(clientCircleList[i]);
                 //console.log(clientCircleList[i].cX);
@@ -91,11 +102,19 @@ function ClientCircleListRotate(){
                 //var degreeStep = Math.abs(clientCircleList[i].degreeSaved - clientCircleList[i].degreeTarget)/100;
 
                 clientCircleList[i].degreeCurrent = Math.EaseInExpo(clientCircleList[i].time, clientCircleList[i].degreeCurrent, degreeStep, 32*clientCircleList.length);
-                clientCircleList[i].cX = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
-                clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
+                clientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
+                clientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time ++;
 
-                if(clientCircleList[i] === null || clientCircleList[i] === undefined){ console.log(clientCircleList[i].cX); }
+                /*
+                d3.selectAll(".circle " + clientCircleList[i].client.name).remove();
+                d3.selectAll(".line " + clientCircleList[i].client.name).remove();
+                for(var j = 0; j < clientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                    d3.selectAll(".circle " + clientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+                }
+                */
 
                 //console.log(clientCircleList[i].cX);
 
@@ -126,13 +145,23 @@ function ClientCircleListRotate(){
             }
             else{
 
+                /*
+                d3.selectAll(".circle " + clientCircleList[i].client.name).remove();
+                d3.selectAll(".line " + clientCircleList[i].client.name).remove();
+                for(var j = 0; j < clientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                    d3.selectAll(".circle " + clientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+                }
+                */
+
                 //console.log(clientCircleList[i]);
                 //console.log(clientCircleList[i].cX);
 
                 clientCircleList[i].degreeCurrent = clientCircleList[i].degreeTarget;
                 clientCircleList[i].degreeSaved = clientCircleList[i].degreeCurrent;
-                clientCircleList[i].cX = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
-                clientCircleList[i].cY = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
+                clientCircleList[i].cX = mainCircleRadius * Math.cos(Math.Radian(clientCircleList[i].degreeCurrent));
+                clientCircleList[i].cY = mainCircleRadius * Math.sin(Math.Radian(clientCircleList[i].degreeCurrent));
                 clientCircleList[i].time = 0;
 
                 if(clientCircleList[i] === null || clientCircleList[i] === undefined){ console.log(clientCircleList[i].cX); }
@@ -166,6 +195,16 @@ function ClientCircleListRotate(){
 
         }
         else if(clientCircleList[i].willBeDeleted && clientCircleList[i] !== null && clientCircleList[i] !== undefined){
+
+            /*
+            d3.selectAll(".circle " + clientCircleList[i].client.name).remove();
+            d3.selectAll(".line " + clientCircleList[i].client.name).remove();
+            for(var j = 0; j < clientCircleList[i].client.latestIRCodeClientCircle.length; j ++){
+
+                d3.selectAll(".circle " + clientCircleList[i].client.latestIRCodeClientCircle[j].client.name).remove();
+
+            }
+            */
 
             clientCircleList[i].time = 0;
 
@@ -260,8 +299,6 @@ function ClientCircle(_client, _degree){
         .style("opacity", 0)
         .style("stroke", this.client.clientCircleColor)
         .style("stroke-width", 5);
-
-    this.gLatestIRCodeClientLine = d3SVG.append("g")
 
     //console.log(this.circle);
     //console.log(this.cX);

@@ -23,9 +23,11 @@ var mainCircleStrokeWidth = 5;
 
 var d3SVG = d3.select("body").append("svg")
     .attr("height", d3Dimension.height)
+    .attr("id", "d3SVG")
     .attr("width", d3Dimension.width)
     .style("border", "2px solid red");
 
+/*
 var mainCirc = d3SVG.append("circle")
     .attr("cx", 0)
     .attr("cy", 0)
@@ -34,3 +36,4 @@ var mainCirc = d3SVG.append("circle")
     .attr("stroke", mainCircleStroke)
     .attr("stroke-width", mainCircleStrokeWidth)
     .attr("transform", "translate(" + d3DimensionTranslate.x + ", " + d3DimensionTranslate.y + ")");
+*/
